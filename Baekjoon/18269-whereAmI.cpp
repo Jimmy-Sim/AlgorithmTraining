@@ -2,44 +2,29 @@
 
 using namespace std;
 
+int N;
+string mailboxes, testString;
+
 int main()
 {
     ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 
-    int N;
     cin >> N;
+    cin >> mailboxes;
 
-    string sequence;
-    cin >> sequence;
-
-    int count = 1;
     for (int i = 0; i < N; i++) {
-        if (i == 0) {
-            continue;
-        }
-        if (sequence[i] == sequence[i - 1]) {
-            count++;
-        }
-    }
-    if (count == N) {
-        cout << N << "\n";
-    }
+        testString += mailboxes[i];
+        int stringLength = i + 1, count = 0;
 
-    else {
-        for (int i = 1; i < N; i++) {
-            string K = sequence.substr(0, i);
-            int count = 0;
-            for (int j = i; j < N - i + 1; j++) {
-                string L = sequence.substr(j, i);
-                if (K == L) {
-                    count++;
-                }
-            }
+        for (int j = i + 1; j < N - i; j++) {
+            string checkString = mailboxes.substr(j, stringLength);
 
-            if (count == 0) {
-                cout << i << "\n";
-                break;
-            }
+            if (checkString == testString) count++;
+        }
+
+        if (count == 0) {
+            cout << stringLength << "\n";
+            break;
         }
     }
 
