@@ -3,30 +3,42 @@
 using namespace std;
 
 int N;
-string mailboxes, testString;
+string mailboxes;
+int maxFound;
+int ans;
 
 int main()
 {
     ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 
-    cin >> N;
-    cin >> mailboxes;
+    cin >> N >> mailboxes;
 
     for (int i = 0; i < N; i++) {
-        testString += mailboxes[i];
-        int stringLength = i + 1, count = 0;
+        int x = 1;
+        for (int j = i; j < N; j++) {
+            string substring = mailboxes.substr(i, x);
+            bool found = false;
+            
+            for (int k = 0; k <= N - x; k++) {
+                if (k == i) continue;
 
-        for (int j = i + 1; j < N - i; j++) {
-            string checkString = mailboxes.substr(j, stringLength);
+                string checkSubstring = mailboxes.substr(k, x);
 
-            if (checkString == testString) count++;
-        }
+                if (substring == checkSubstring) {
+                    found = true;
+                    break;
+                }
+            }
 
-        if (count == 0) {
-            cout << stringLength << "\n";
-            break;
+            if (found) maxFound = x > maxFound ? x : maxFound;
+
+            x++;
         }
     }
+
+    ans = maxFound + 1;
+
+    cout << ans << "\n";
 
     return 0;
 }
