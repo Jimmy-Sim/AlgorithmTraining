@@ -2,7 +2,7 @@
 
 using namespace std;
 
-const int MAX = 1000;
+const int MAX = 1005;
 
 int N;
 int boxes[MAX];
@@ -18,7 +18,7 @@ int main()
         DP[i] = 1;
 
         for (int j = 0; j < i; j++) {
-            if (boxes[j] < boxes[i]) DP[i] = (DP[j] + 1 > DP[i]) ? DP[j] + 1 : DP[i];
+            if (boxes[j] < boxes[i]) DP[i] = DP[j] + 1 > DP[i] ? DP[j] + 1 : DP[i];
         }
 
         ans = DP[i] > ans ? DP[i] : ans;
