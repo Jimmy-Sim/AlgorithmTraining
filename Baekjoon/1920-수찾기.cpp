@@ -1,25 +1,41 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
+
+const int MAX = 100005;
+
+int N, M;
+int searchArr[MAX], numArr[MAX];
 
 int main()
 {
     ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-    
-    int N;
+
     cin >> N;
+    for (int i = 0; i < N; i++) cin >> searchArr[i];
+    sort(&searchArr[0], &searchArr[N]);
 
-    int arr1[100005];
-    for (int i = 1; i <= N; i++) {
-        cin >> arr1[i];
-    }
-
-    int M;
     cin >> M;
+    for (int i = 0; i < M; i++) cin >> numArr[i];
 
-    int arr2[100005];
-    for (int i = 1; i <= M; i++) {
-        cin >> arr1[i];
+    for (int i = 0; i < M; i++) {
+        int num = numArr[i];
+
+        int left = 0, right = N - 1;
+        bool found = false;
+        while (left <= right) {
+            int middle = left + (right - left) / 2, searchNum = searchArr[middle];
+
+            if (searchNum == num) {
+                found = true;
+                break;
+            }
+            else if (searchNum > num) right = middle - 1;
+            else left = middle + 1;
+        }
+
+        cout << found << "\n";
     }
 
     return 0;
