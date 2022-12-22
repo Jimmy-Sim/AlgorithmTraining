@@ -2,35 +2,25 @@
 
 using namespace std;
 
+const int MAX = 1005;
+
+int T, N;
+int arr[MAX], prefSum[MAX];
+
 int main()
 {
-    ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    cin >> T;
 
-    int N;
-    cin >> N;
-
-    for (int i = 0; i < N; i++) {
-        int M;
-        cin >> M;
-
-        int arr[1005];
-        for (int j = 1; j <= M; j++) {
+    for (int i = 0; i < T; i++) {
+        cin >> N;
+        for (int j = 0; j < N; j++) {
             cin >> arr[j];
+            prefSum[j] = arr[j];
         }
+        for (int j = 1; j < N; j++) prefSum[j] += prefSum[j - 1];
 
         int maxSum = 0;
-        for (int j = 1; j <= M; j++) {
-            int x = j, sum = 0;
-            while (sum >= 0) {
-                if (sum + arr[x] < 0) {
-                    cout << arr[x] << "\n";
-                    break;
-                }
-                sum += arr[x];
-                x++;
-            }
-            maxSum = sum > maxSum ? sum : maxSum;
-        }
+        for (int j = 0; j < N; j++) maxSum = prefSum[j] > maxSum ? prefSum[j] : maxSum;
 
         cout << maxSum << "\n";
     }
