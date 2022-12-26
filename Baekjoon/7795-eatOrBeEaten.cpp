@@ -25,11 +25,7 @@ int main()
         for (int j = 0; j < N; j++) {
             int size = arrA[j], greaterCount = lower_bound(&arrB[0], &arrB[M], size) - &arrB[0];
             sum += greaterCount;
-
-            cout << greaterCount << " ";
         }
-
-        cout << '\n';
 
         cout << sum << '\n';
     }
