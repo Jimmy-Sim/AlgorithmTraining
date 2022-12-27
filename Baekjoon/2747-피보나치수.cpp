@@ -1,3 +1,5 @@
+// Loop:
+/*
 #include <iostream>
 
 using namespace std;
@@ -18,6 +20,30 @@ int main()
     }
 
     cout << fibonacci[N] << "\n";
+
+    return 0;
+}
+*/
+
+// Recursion:
+#include <iostream>
+
+using namespace std;
+
+int N;
+
+int fibonacci(int num)
+{
+    if (num >= 2) return fibonacci(num - 2) + fibonacci(num - 1);
+    else if (num == 1) return 1;
+    else return 0;
+}
+
+int main()
+{
+    cin >> N;
+
+    cout << fibonacci(N) << '\n';
 
     return 0;
 }
