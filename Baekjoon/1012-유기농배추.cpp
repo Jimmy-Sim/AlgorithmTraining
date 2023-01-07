@@ -7,7 +7,7 @@ const int MAXIMUM = 55;
 
 int N;
 int column, row, cabbageCount;
-int grid[MAXIMUM][MAXIMUM] = {};
+int grid[MAXIMUM][MAXIMUM];
 int visited[MAXIMUM][MAXIMUM];
 int dx[4] = {-1, 0, 1, 0}, dy[4] = {0, -1, 0, 1};
 
@@ -32,7 +32,6 @@ void init()
         }
     }
 }
-
 
 int main()
 {
