@@ -12,8 +12,10 @@ void dfs(int x, int y) {
 
     for (int i = 0; i < 8; i++) {
         int nx = x + dx[i], ny = y + dy[i];
-        if (nx >= 0 && ny >= 0 && nx < W && ny < H) {
-            if (!visited[nx][ny] && map[nx][ny]) dfs(nx, ny);
+        if (nx >= 0 && ny >= 0 && nx < H && ny < W) {
+            if (!visited[nx][ny] && map[nx][ny]){
+                dfs(nx, ny);
+            }
         }
     }
 }
@@ -26,9 +28,11 @@ void init() {
 
 int main()
 {
-    cin >> W >> H;
+    while (true) {
+        cin >> W >> H;
 
-    while (W != 0 || H != 0) {
+        if (W == 0 && H == 0) break;
+
         init();
 
         int cnt = 0;
@@ -36,7 +40,7 @@ int main()
         for (int i = 0; i < H; i++) {
             for (int j = 0; j < W; j++) cin >> map[i][j];
         }
-
+        
         for (int i = 0; i < H; i++) {
             for (int j = 0; j < W; j++) {
                 if (!visited[i][j] && map[i][j]) {
@@ -47,8 +51,6 @@ int main()
         }
 
         cout << cnt << '\n';
-        
-        cin >> W >> H;
     }
 
     return 0;
