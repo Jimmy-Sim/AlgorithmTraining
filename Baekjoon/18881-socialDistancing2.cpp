@@ -1,4 +1,3 @@
-/*
 #include <iostream>
 #include <algorithm>
 
@@ -7,8 +6,7 @@ using namespace std;
 const int MAX = 1005;
 
 struct Cow {
-    int position;
-    bool infected;
+    int position, infected;
 };
 
 bool cmp(Cow x, Cow y) {
@@ -16,110 +14,44 @@ bool cmp(Cow x, Cow y) {
 }
 
 int N;
-Cow cows[MAX];
+Cow cow[MAX];
+int minDistance = 1000005;
+int ans = 1;
 
 int main()
 {
-    ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-
     cin >> N;
-
+    for (int i = 0; i < N; i++) cin >> cow[i].position >> cow[i].infected;
     
-    for (int i = 0; i < N; i++) cin >> cows[i].position >> cows[i].infected;
+    sort(&cow[0], &cow[N], cmp);
 
-    sort(&cows[0], &cows[N], cmp);
+    for (int i = 1; i < N; i++) {
+        int distance = 1000001;
+        int curCow = cow[i].position, leftCow = cow[i - 1].position;
+        int curCowInfected = cow[i].infected, leftCowInfected = cow[i - 1].infected;
 
-    int distance, minDistance = 1000000;
-
-    for (int i = 0; i < N; i++) {
-        int leftDistance = 1000000, rightDistance = 1000000;
-
-        int currentPosition = cows[i].position;
-        bool currentlyInfected = cows[i].infected;
-
-        int leftPosition = cows[i - 1].position;
-        bool leftInfected = cows[i - 1].infected;
-
-        int rightPosition = cows[i + 1].position;
-        bool rightInfected = cows[i + 1].infected;
-
-        if (currentlyInfected) {
-            if (!leftInfected && i - 1 >= 0) leftDistance = currentPosition - leftPosition;
-            if (!rightInfected && i + 1 < N) rightDistance = rightPosition - currentPosition;
-        }
-
-        distance = min(leftDistance, rightDistance);
+        if ((curCowInfected && !leftCowInfected) || (!curCowInfected && leftCowInfected)) distance = curCow - leftCow;
 
         minDistance = distance < minDistance ? distance : minDistance;
     }
 
-    int ans = 1;
+    minDistance--;
 
-    for (int i = 0; i < N; i++) {
-        int currentPosition = cows[i].position;
-        bool currentlyInfected = cows[i].infected;
+    for (int i = 1; i < N; i++) {
+        int curCow = cow[i].position, leftCow = cow[i - 1].position;
+        int curCowInfected = cow[i].infected, leftCowInfected = cow[i - 1].infected;
 
-        int rightPosition = cows[i + 1].position;
-        bool rightInfected = cows[i + 1].infected;
-
-        if (i == N - 1) {
-            if (currentPosition >= cows[i - 1].position + minDistance) ans++;
-        }
-        else {
-            if ((currentlyInfected && rightInfected) && rightPosition - currentPosition >= minDistance) ans++;
-        }
-    }
-
-    cout << ans << "\n";
-
-    return 0;
-}
-*/
-
-#include <iostream>
-
-using namespace std;
-
-int N;
-bool inputPosition[1005], inputHealth[1005], cows[1000005];
-
-int main()
-{
-    cin >> N;
-    for (int i = 0; i < N; i++) {
-        int position;
-        bool isSick;
-
-        cin >> position >> isSick;
-
-        inputPosition[i] = position;
-        inputHealth[i] = isSick;
-        cows[position] = isSick;
-    }
-
-    int radius = 1000005;
-    for (int i = 0; i < N; i++) {
-        if (inputHealth[i]) {
-            if (i == N - 1) {
-                if (!inputHealth[i - 1]) {
-                    int distance = inputPosition[i] - inputPosition[i - 1];
-                    radius = distance < radius ? distance : radius;
-                }
+        if (curCowInfected) {
+            if (leftCowInfected) {
+                if (curCow - leftCow > minDistance) ans++;
             }
             else {
-                if (!inputHealth[i + 1]) {
-                    int distance = inputPosition[i + 1] - inputPosition[i];
-                    radius = distance < radius ? distance : radius;
-                }
+                ans++;
             }
         }
-
-        cout << radius << " ";
     }
 
-    cout << "\n";
-
-    cout << radius << "\n";
+    cout << ans << '\n';
 
     return 0;
 }
