@@ -23,7 +23,7 @@ int main()
         competed.insert(participant);
     }
 
-    for (auto participant : registered) {
+    for (string participant : registered) {
         if (competed.count(participant) != registered.count(participant)) {
             ans = participant;
             break;
