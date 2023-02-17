@@ -1,2 +1,2 @@
 phrase = input()
-print(len(phrase.split()))
+print(len(phrase.split())) 
