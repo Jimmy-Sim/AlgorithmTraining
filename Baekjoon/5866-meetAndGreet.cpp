@@ -2,54 +2,57 @@
 
 using namespace std;
 
-const int MAX = 1000005;
-
-int B, E;
-int positionUpdates[MAX][5];
-
 int main()
 {
+    int B, E;
     cin >> B >> E;
 
-    int bX = 1;
+    int bessiePosition[1000005] = {}, bessieIdx = 1;
     for (int i = 0; i < B; i++) {
-        int time;
+        int unit;
         char direction;
-        cin >> time >> direction;
+        cin >> unit >> direction;
 
-        for (int j = bX; j <= bX + time; j++) {
-            if (direction == 'L') positionUpdates[j][1] = positionUpdates[j - 1][1] - 1;
-            else positionUpdates[j][1] = positionUpdates[j - 1][1] + 1;
+        for (int j = 0; j < unit; j++) {
+            if (direction == 'L') bessiePosition[bessieIdx] = bessiePosition[bessieIdx - 1] - 1;
+            else bessiePosition[bessieIdx] = bessiePosition[bessieIdx - 1] + 1;
+            bessieIdx++;
         }
-
-        bX += time;
     }
-    int bY = 1;
+    int elsiePosition[1000005] = {}, elsieIdx = 1;
     for (int i = 0; i < E; i++) {
-        int time;
+        int unit;
         char direction;
-        cin >> time >> direction;
+        cin >> unit >> direction;
 
-        for (int j = bY; j <= bY + time; j++) {
-            if (direction == 'L') positionUpdates[j][2] = positionUpdates[j - 1][2] - 1;
-            else positionUpdates[j][2] = positionUpdates[j - 1][2] + 1;
+        for (int j = 0; j < unit; j++) {
+            if (direction == 'L') elsiePosition[elsieIdx] = elsiePosition[elsieIdx - 1] - 1;
+            else elsiePosition[elsieIdx] = elsiePosition[elsieIdx - 1] + 1;
+            elsieIdx++;
         }
-
-        bY += time;
     }
 
-    if (bX > bY) {
-        for (int i = bY + 1; i <= bX; i++) positionUpdates[i][2] = positionUpdates[i - 1][2];
+    if (bessieIdx > elsieIdx) {
+        for (int i = elsieIdx; i < bessieIdx; i++) elsiePosition[i] = elsiePosition[i - 1];
     }
-    else if (bX < bY) {
-        for (int i = bX + 1; i <= bY; i++) positionUpdates[i][1] = positionUpdates[i - 1][1];
-    }
-
-    for (int i = 0; i < 20; i++) {
-        cout << positionUpdates[i][1] << ' ' << positionUpdates[i][2] << '\n';
+    else if (bessieIdx < elsieIdx) {
+        for (int i = bessieIdx; i < elsieIdx; i++) bessiePosition[i] = bessiePosition[i - 1];
     }
 
-    cout << positionUpdates[13][1] << ' ' << positionUpdates[13][2] << '\n';
+    for (int i = 0; i < max(bessieIdx, elsieIdx); i++) cout << bessiePosition[i] << ' ';
+    cout << '\n';
+    for (int i = 0; i < max(bessieIdx, elsieIdx); i++) cout << elsiePosition[i] << ' ';
+    cout << '\n';
+
+    int cnt = 0;
+    for (int i = 1; i < max(bessieIdx, elsieIdx); i++) {
+        if (i == 1) {
+            if (bessiePosition[i] == elsiePosition[i]) cnt++;
+        }
+        else if (bessiePosition[i] == elsiePosition[i] && bessiePosition[i - 1] != elsiePosition[i - 1]) cnt++;
+    }
+
+    cout << cnt << '\n';
 
     return 0;
 }
