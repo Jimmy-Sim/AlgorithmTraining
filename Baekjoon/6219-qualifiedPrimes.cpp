@@ -1,40 +1,42 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-int lowerRange, higherRange;
-int containingDigit;
-int ans;
+bool isPrime(int n) {
+    if (n == 2 || n == 3) return true;
+
+    if (n % 2 == 0 || n % 3 == 0 || n % 5 == 0) return false;
+
+    for (int i = 5; i * i <= n; i += 6) {
+        if (n % i == 0 || n % (i + 2) == 0) return false;
+    }
+
+    return true;
+}
 
 int main()
 {
-    cin >> lowerRange >> higherRange >> containingDigit;
+    int A, B, digit;
+    cin >> A >> B >> digit;
 
-    for (int i = lowerRange; i <= higherRange; i++) {
-        int number = i;
-        bool isPrime;
+    vector<int> primes;
+    for (int i = A; i <= B; i++) {
+        if (isPrime(i)) primes.push_back(i);
+    }
 
-        for (int j = 2; j < number; j++) {
-            if (number % j == 0) {
-                isPrime = false;
+    int cnt = 0;
+    for (int i = 0; i < primes.size(); i++) {
+        while (primes[i] > 0) {
+            if (primes[i] % 10 == digit) {
+                cnt++;
                 break;
             }
-            else isPrime = true;
-        }
-        if (number == 2) isPrime = true;
-
-        if (isPrime) {
-            while (number > 1) {
-                if (number % 10 == containingDigit) {
-                    ans++;
-                    break;
-                }
-                else number /= 10;
-            }
+            primes[i] /= 10;
         }
     }
 
-    cout << ans << "\n";
+    cout << cnt << '\n';
 
     return 0;
 }
