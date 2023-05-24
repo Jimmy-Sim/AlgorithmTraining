@@ -4,8 +4,7 @@ using namespace std;
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr), cout.tie(nullptr);
+    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
 
     int N, M;
     cin >> N >> M;
@@ -17,30 +16,30 @@ int main()
 
     int maxCnt = 0;
     for (int i = 0; i < 26; i++) {
+        char alph1 = i + 65;
         for (int j = 0; j < 26; j++) {
             if (j == i) continue;
 
-            char mAlph = i + 65, oAlph = j + 65;
-            cout << mAlph << ' ' << oAlph << '\n';
-            int cnt = 0;
+            int alph2 = j + 65, cnt = 0;
+
             for (int k = 0; k < N; k++) {
                 for (int l = 0; l <= M - 3; l++) {
-                    if ((puzzle[k][l] == mAlph && puzzle[k][l + 1] == oAlph && puzzle[k][l + 2] == oAlph) || (puzzle[k][l] == oAlph && puzzle[k][l + 1] == oAlph && puzzle[k][l + 2] == mAlph)) cnt++;
+                    if ((puzzle[k][l] == alph1 && puzzle[k][l + 1] == alph2 && puzzle[k][l + 2] == alph2) || (puzzle[k][l] == alph2 && puzzle[k][l + 1] == alph2 && puzzle[k][l + 2] == alph1)) cnt++;
                 }
             }
             for (int k = 0; k <= N - 3; k++) {
                 for (int l = 0; l < M; l++) {
-                    if ((puzzle[k][l] == mAlph && puzzle[k + 1][l] == oAlph && puzzle[k + 2][l] == oAlph) || (puzzle[k][l] == oAlph && puzzle[k + 1][l] == oAlph && puzzle[k + 2][l] == mAlph)) cnt++;
+                    if ((puzzle[k][l] == alph1 && puzzle[k + 1][l] == alph2 && puzzle[k + 2][l] == alph2) || (puzzle[k][l] == alph2 && puzzle[k + 1][l] == alph2 && puzzle[k + 2][l] == alph1)) cnt++;
                 }
             }
             for (int k = 0; k <= N - 3; k++) {
                 for (int l = 0; l <= M - 3; l++) {
-                    if ((puzzle[k][l] == mAlph && puzzle[k + 1][l + 1] == oAlph && puzzle[k + 2][l + 2] == oAlph) || (puzzle[k][l] == oAlph && puzzle[k + 1][l + 1] == oAlph && puzzle[k + 2][l + 2] == mAlph)) cnt++;
+                    if ((puzzle[k][l] == alph1 && puzzle[k + 1][l + 1] == alph2 && puzzle[k + 2][l + 2] == alph2) || (puzzle[k][l] == alph2 && puzzle[k + 1][l + 1] == alph2 && puzzle[k + 2][l + 2] == alph1)) cnt++;
                 }
             }
-            for (int k = N - 1; k >= N - 3; k++) {
-                for (int l = M - 1; l >= M - 4; l++) {
-                    if ((puzzle[k][l] == mAlph && puzzle[k + 1][l - 1] == oAlph && puzzle[k + 2][l - 2] == oAlph) || (puzzle[k][l] == oAlph && puzzle[k + 1][l - 1] == oAlph && puzzle[k + 2][l - 2] == mAlph)) cnt++;
+            for (int k = N - 3; k < N; k++) {
+                for (int l = 0; l <= M - 3; l++) {
+                    if ((puzzle[k][l] == alph1 && puzzle[k - 1][l + 1] == alph2 && puzzle[k - 2][l + 2] == alph2) || (puzzle[k][l] == alph2 && puzzle[k - 1][l + 1] == alph2 && puzzle[k - 2][l + 2] == alph1)) cnt++;
                 }
             }
 
