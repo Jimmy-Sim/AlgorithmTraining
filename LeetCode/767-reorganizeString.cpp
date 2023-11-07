@@ -1,30 +1,34 @@
 class Solution {
 public:
     string reorganizeString(string s) {
-        unordered_map<char, int> freq_map;
-        for (char c : s) freq_map[c]++;
+        vector<int> H (26, 0);
+        for (int i = 0; s[i] != '\0'; i++) H[s[i] - 97]++;
 
-        priority_queue<pair<int, char>> max_heap;
-        for (auto &[ch, freq] : freq_map) max_heap.push({freq, ch});
-
-        string res;
-        while (max_heap.size() >= 2) {
-            auto [freq1, char1] = max_heap.top(); max_heap.pop();
-            auto [freq2, char2] = max_heap.top(); max_heap.pop();
-
-            res += ()char1 + char2);
-
-            if (freq1-- > 0) max_heap.push({freq1, char1});
-            if (freq2-- > 0) max_heap.push({freq2, char2});
+        int max = 0, letter = 0;
+        for (int i = 0; i < H.size(); i++) {
+            if (H[i]> max) {
+                max = H[i];
+                letter = i;
+            }
         }
 
-        if (!max_heap.empty()) {
-            auto [freq, ch] = max_heap.top();
-            if (freq > 1) return "";
+        if (max > (s.length() + 1) / 2) return "";
 
-            res += ch;
+        vector<char> res(s.length());
+        int index = 0;
+        while (H[letter]-- > 0) {
+            res[index]= static_cast<char>(letter + 'a');
+            index += 2;
         }
 
-        return res;
+        for (int i = 0 ; i < H.size(); i++) {
+            while (H[i]-- > 0) {
+                if (index >= res.size()) index = 1;
+                res[index] = static_cast<char>(i + 'a');
+                index += 2;
+            }
+        }
+
+        return string(res.begin(), res.end());
     }
 };
