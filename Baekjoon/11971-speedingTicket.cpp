@@ -1,45 +1,37 @@
-#include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
 int main()
 {
-    ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-
     int N, M;
     cin >> N >> M;
-    
-    int road[5][105], x = 0;
+
+    int limits[105], speeds[105];
+    int idx = 1;
     for (int i = 0; i < N; i++) {
-        int roadLength, speedLimit;
-        cin >> roadLength >> speedLimit;
+        int length, limit;
+        cin >> length >> limit;
 
-        for (int j = x; j < x + roadLength; j++) {
-            road[0][j] = speedLimit;
-        }
-
-        x += roadLength;
+        for (int j = idx; j < idx + length; j++) limits[j] = limit;
+        idx += length;
     }
-
-    int y = 0;
+    idx = 1;
     for (int i = 0; i < M; i++) {
-        int roadLength, speedLimit;
-        cin >> roadLength >> speedLimit;
+        int length, speed;
+        cin >> length >> speed;
 
-        for (int j = y; j < y + roadLength; j++) {
-            road[1][j] = speedLimit;
-        }
-
-        y += roadLength;
+        for (int j = idx; j < idx + length; j++) speeds[j] = speed;
+        idx += length;
     }
 
     int maxExceed = 0;
-    for (int i = 0; i < 100; i++) {
-        int exceed = road[1][i] - road[0][i];
-        maxExceed = exceed > maxExceed ? exceed : maxExceed;
+    for (int i = 1; i <= 100; i++) {
+        int limit = limits[i], speed = speeds[i];
+        maxExceed = max(speed - limit, maxExceed);
     }
 
-    cout << maxExceed << "\n";
-
+    cout << maxExceed << '\n';
+    
     return 0;
 }
